@@ -1,0 +1,72 @@
+<view class="container">
+  <!-- 搜索区域 -->
+  <view class="search-section">
+    <input 
+      class="search-input"
+      placeholder="输入目的地"
+      value="{{searchKeyword}}"
+      bindinput="handleSearchInput"
+      bindconfirm="handleSearch"
+      confirm-type="search"
+    />
+    <button 
+      class="search-btn" 
+      bindtap="handleSearch"
+      hover-class="button-hover"
+    >
+      搜索
+    </button>
+  </view>
+
+  <!-- 景点列表 -->
+  <scroll-view scroll-y class="attractions-list">
+    <view class="section-title" wx:if="{{selectedLocation}}">
+      {{selectedLocation.name}}的推荐景点
+    </view>
+    
+    <!-- 加载提示 -->
+    <view wx:if="{{loading}}" class="loading-container">
+      <view class="loading">
+        <text>搜索中...</text>
+      </view>
+    </view>
+    
+    <block wx:for="{{attractions}}" wx:key="id">
+      <view class="attraction-item {{item.isSelected ? 'selected' : ''}}">
+        <view class="attraction-info">
+          <view class="attraction-header">
+            <text class="attraction-name">{{item.name}}</text>
+            <text class="attraction-rating" wx:if="{{item.rating}}">{{item.rating}}分</text>
+          </view>
+          <view class="attraction-details">
+            <view class="attraction-address">{{item.address}}</view>
+            <view class="attraction-type" wx:if="{{item.type}}">{{item.type}}</view>
+            <view class="attraction-tel" wx:if="{{item.tel}}">电话：{{item.tel}}</view>
+          </view>
+        </view>
+        <button 
+          class="add-btn {{item.isSelected ? 'selected' : ''}}" 
+          size="mini" 
+          type="{{item.isSelected ? 'default' : 'primary'}}"
+          data-attraction="{{item}}"
+          bindtap="handleAttractionSelect"
+        >
+          {{item.isSelected ? '移除' : '添加'}}
+        </button>
+      </view>
+    </block>
+  </scroll-view>
+
+  <!-- 底部操作栏 -->
+  <view class="bottom-bar">
+    <view class="selected-count">已选择 {{selectedAttractions.length}} 个景点</view>
+    <button 
+      class="next-btn" 
+      type="primary" 
+      bindtap="goToPlan"
+      disabled="{{selectedAttractions.length === 0}}"
+    >
+      下一步
+    </button>
+  </view>
+</view> 

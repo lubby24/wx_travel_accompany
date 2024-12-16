@@ -1,0 +1,142 @@
+<view class="page-container">
+  <view class="header">
+    <view class="title">行程预览</view>
+    <view class="date-range">
+      <van-tag type="primary" size="medium">{{startDate}}</van-tag>
+      <text class="separator">至</text>
+      <van-tag type="primary" size="medium">{{endDate}}</van-tag>
+      <van-tag type="success" size="medium" custom-class="days-tag">(共{{dailyPlans.length}}天)</van-tag>
+    </view>
+  </view>
+
+  <view class="main-content">
+    <van-cell 
+      title="{{showMap ? '隐藏地图' : '查看地图'}}"
+      is-link
+      arrow-direction="{{showMap ? 'down' : 'up'}}"
+      bind:click="toggleMap"
+      custom-class="map-toggle"
+    />
+
+    <van-transition
+      show="{{ showMap }}"
+      name="slide-down"
+      custom-class="map-transition"
+    >
+      <view class="map-wrapper {{showMap ? 'show' : ''}}">
+        <map
+          id="map"
+          class="map"
+          longitude="{{center.longitude}}"
+          latitude="{{center.latitude}}"
+          markers="{{markers}}"
+          polyline="{{polyline}}"
+          show-location
+          scale="{{mapScale}}"
+          enable-zoom="{{true}}"
+          enable-scroll="{{true}}"
+          include-points="{{markers}}"
+        ></map>
+      </view>
+    </van-transition>
+
+    <scroll-view scroll-y class="daily-plans {{showMap ? 'with-map' : ''}}">
+      <block wx:for="{{dailyPlans}}" wx:key="day">
+        <van-cell-group inset custom-class="day-plan">
+          <van-cell 
+            title="第{{item.day}}天" 
+            label="{{item.date}}"
+            value="{{item.attractions.length}}个景点"
+            value-class="spot-count"
+            custom-class="day-header"
+          />
+          
+          <view class="attractions">
+            <block wx:for="{{item.attractions}}" wx:for-item="attraction" wx:key="uniqueId">
+              <movable-area class="movable-area">
+                <movable-view 
+                  class="movable-item {{currentDay === item.day && moving ? 'moving' : ''}} {{index === dragTargetIndex ? 'target' : ''}} {{index === dragSourceIndex ? 'source' : ''}}"
+                  direction="vertical"
+                  damping="50"
+                  friction="5"
+                  data-day="{{item.day}}"
+                  data-index="{{index}}"
+                  bindtouchstart="dragStart"
+                  bindtouchmove="dragMove"
+                  bindtouchend="dragEnd"
+                >
+                  <view class="drag-preview" wx:if="{{index === dragTargetIndex && moving}}"></view>
+                  <van-cell 
+                    custom-class="attraction-cell {{moving ? 'moving' : ''}}"
+                    bind:click="locateAttraction"
+                    data-latitude="{{attraction.location.latitude}}"
+                    data-longitude="{{attraction.location.longitude}}"
+                    data-name="{{attraction.name}}"
+                  >
+                    <view slot="title">
+                      <view class="attraction-content">
+                        <view class="attraction-main">
+                          <van-icon name="location" color="#1890ff" size="16px" />
+                          <text class="attraction-name">{{attraction.name}}</text>
+                        </view>
+                        <view class="attraction-details">
+                          <view class="address">{{attraction.address}}</view>
+                          <block wx:if="{{attraction.distance}}">
+                            <van-divider 
+                              contentPosition="center" 
+                              customStyle="margin: 8px 0; border-color: #ebedf0;"
+                            >
+                              <van-tag 
+                                type="primary" 
+                                size="medium"
+                                bind:tap="openNavigation"
+                                data-from-latitude="{{attraction.location.latitude}}"
+                                data-from-longitude="{{attraction.location.longitude}}"
+                                data-from-name="{{attraction.name}}"
+                                data-to-latitude="{{item.attractions[index + 1].location.latitude}}"
+                                data-to-longitude="{{item.attractions[index + 1].location.longitude}}"
+                                data-to-name="{{item.attractions[index + 1].name}}"
+                              >
+                                <van-icon name="arrow-down" />
+                                {{attraction.distance}}
+                                <van-icon name="guide-o" class="nav-icon" />
+                              </van-tag>
+                            </van-divider>
+                          </block>
+                        </view>
+                      </view>
+                    </view>
+                    <van-icon 
+                      slot="right-icon" 
+                      name="wap-nav"
+                      size="20px"
+                      class="drag-handle"
+                    />
+                  </van-cell>
+                </movable-view>
+              </movable-area>
+            </block>
+          </view>
+        </van-cell-group>
+      </block>
+    </scroll-view>
+  </view>
+
+  <view class="bottom-bar">
+    <van-button 
+      custom-class="share-btn" 
+      icon="share" 
+      open-type="share"
+      block
+    >分享行程</van-button>
+    <van-button 
+      custom-class="save-btn" 
+      type="primary" 
+      icon="success" 
+      block
+      bind:click="savePlan"
+    >保存行程</van-button>
+  </view>
+</view>
+
+<van-toast id="van-toast" /> 

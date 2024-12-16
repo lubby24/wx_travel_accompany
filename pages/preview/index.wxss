@@ -1,0 +1,607 @@
+.page-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #f5f5f5;
+}
+
+.header {
+  background: #fff;
+  padding: 20rpx;
+  z-index: 2;
+}
+
+.main-content {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.map-toggle {
+  padding: 20rpx;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10rpx;
+  border-bottom: 1rpx solid #eee;
+  z-index: 2;
+}
+
+/* 地图容器样式 */
+.map-wrapper {
+  width: 100%;
+  height: 500rpx;
+  background: #fff;
+  position: relative;
+  z-index: 1;
+}
+
+.map {
+  width: 100%;
+  height: 100%;
+}
+
+/* 地图过渡动画 */
+.map-transition {
+  width: 100%;
+  height: 500rpx;
+}
+
+/* 修改地图切换按钮样式 */
+.map-toggle {
+  --cell-background-color: #fff;
+  position: relative;
+  z-index: 2;
+}
+
+/* 行程列表样式 */
+.daily-plans {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.daily-plans.with-map {
+  height: calc(100vh - 500rpx - 180rpx - 120rpx);
+}
+
+/* 顶部标题栏 */
+.header {
+  padding: 30rpx 20rpx;
+  background: #fff;
+  text-align: center;
+  box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.05);
+}
+
+.title {
+  font-size: 36rpx;
+  font-weight: bold;
+  margin-bottom: 16rpx;
+  color: #333;
+}
+
+.date-range {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.date {
+  color: #1890ff;
+}
+
+.separator {
+  margin: 0 10rpx;
+}
+
+.days {
+  margin-left: 10rpx;
+  color: #999;
+}
+
+/* 地图部分 */
+.map-section {
+  height: 0;
+  transition: height 0.3s ease;
+  background: #fff;
+  overflow: hidden;
+}
+
+.map-section.show {
+  height: 500rpx;
+}
+
+.map {
+  width: 100%;
+  height: 100%;
+}
+
+/* 行程列表部分 */
+.daily-plans {
+  flex: 1;
+  padding: 20rpx;
+  overflow-y: auto;
+}
+
+.day-plan {
+  background: #fff;
+  border-radius: 12rpx;
+  margin-bottom: 20rpx;
+  overflow: hidden;
+  box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.05);
+}
+
+.day-header {
+  padding: 24rpx;
+  background: #f8f8f8;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1rpx solid #eee;
+}
+
+.day-info {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.day-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.day-date {
+  font-size: 26rpx;
+  color: #666;
+}
+
+.spot-count {
+  font-size: 24rpx;
+  color: #1890ff;
+  background: rgba(24,144,255,0.1);
+  padding: 4rpx 12rpx;
+  border-radius: 20rpx;
+}
+
+.attractions {
+  padding: 20rpx;
+}
+
+.attraction-item {
+  display: flex;
+  padding: 20rpx 0;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* 添加点击效果 */
+.attraction-item:active {
+  background: #f5f5f5;
+}
+
+/* 添加提示图标 */
+.attraction-content {
+  flex: 1;
+  position: relative;
+}
+
+.attraction-content::after {
+  content: '👆';
+  position: absolute;
+  right: 20rpx;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 24rpx;
+  opacity: 0.5;
+}
+
+/* 优化地图过渡效果 */
+.map-wrapper {
+  height: 0;
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+  background: #fff;
+}
+
+.map-wrapper.show {
+  height: 500rpx;
+}
+
+/* 优化地图标记点样式 */
+.map {
+  width: 100%;
+  height: 100%;
+  transition: all 0.3s ease;
+}
+
+/* 时间线样式 */
+.time-line {
+  width: 30rpx;
+  margin-right: 20rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.time-dot {
+  width: 16rpx;
+  height: 16rpx;
+  background: #1890ff;
+  border-radius: 50%;
+}
+
+.time-bar {
+  flex: 1;
+  width: 2rpx;
+  background: #e8e8e8;
+  margin: 8rpx 0;
+}
+
+.attraction-item:last-child .time-bar {
+  display: none;
+}
+
+/* 景点内容样式 */
+.attraction-content {
+  flex: 1;
+}
+
+.attraction-main {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12rpx;
+}
+
+.time {
+  font-size: 26rpx;
+  color: #1890ff;
+  background: rgba(24,144,255,0.1);
+  padding: 4rpx 12rpx;
+  border-radius: 4rpx;
+  margin-right: 16rpx;
+}
+
+.attraction-name {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.attraction-details {
+  font-size: 26rpx;
+  color: #666;
+  padding-left: 88rpx;
+}
+
+.address, .contact {
+  margin-bottom: 8rpx;
+}
+
+.label {
+  color: #999;
+}
+
+/* 底部操作栏 */
+.bottom-bar {
+  padding: 20rpx;
+  background: #fff;
+  border-top: 1rpx solid #eee;
+  display: flex;
+  gap: 20rpx;
+  z-index: 10;
+}
+
+.share-btn, .save-btn {
+  flex: 1;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8rpx;
+}
+
+.share-btn {
+  background: #fff;
+  border: 1rpx solid #ddd;
+  color: #666;
+}
+
+.icon {
+  font-size: 32rpx;
+}
+
+/* 添加路线动画 */
+@keyframes dash {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.map polyline {
+  stroke-dasharray: 8;
+  animation: dash 20s linear infinite;
+} 
+
+/* 添加地图切换按钮样式 */
+.map-toggle {
+  padding: 20rpx;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10rpx;
+  border-bottom: 1rpx solid #eee;
+  z-index: 2;
+}
+
+.toggle-text {
+  font-size: 28rpx;
+  color: #1890ff;
+}
+
+.toggle-icon {
+  font-size: 24rpx;
+  color: #1890ff;
+}
+
+/* 添加距离样式 */
+.distance {
+  color: #666;
+  font-size: 24rpx;
+  margin-top: 8rpx;
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.distance-icon {
+  color: #1890ff;
+} 
+
+/* 底部栏样式 */
+.bottom-bar {
+  padding: 20rpx;
+  background: #fff;
+  border-top: 1rpx solid #eee;
+  z-index: 2;
+}
+
+/* 优化距离显示样式 */
+.distance-info {
+  margin-top: 16rpx;
+  padding-top: 16rpx;
+  border-top: 1rpx dashed #eee;
+}
+
+.distance {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 24rpx;
+}
+
+.distance-label {
+  color: #999;
+}
+
+.distance-value {
+  color: #1890ff;
+  font-weight: 500;
+}
+
+.distance-line {
+  margin-top: 8rpx;
+  height: 4rpx;
+  background: linear-gradient(to right, #1890ff 0%, #1890ff 50%, transparent 50%, transparent 100%);
+  background-size: 8rpx 100%;
+}
+
+/* 最后一个景点不显示距离信息 */
+.attraction-item:last-child .distance-info {
+  display: none;
+}
+
+/* 拖拽相关样式 */
+.movable-area {
+  width: 100%;
+  height: 180rpx;
+  position: relative;
+  margin-bottom: 10rpx;
+}
+
+.movable-item {
+  width: 100%;
+  height: 180rpx;
+  z-index: 1;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* 源位置样式 */
+.movable-item.source {
+  opacity: 0.8;
+}
+
+/* 目标位置样式 */
+.movable-item.target:not(.source) {
+  transform: translateY(180rpx);
+  transition: transform 0.2s ease;
+}
+
+/* 拖动时的样式 */
+.movable-item.moving {
+  z-index: 100;
+  transform: scale(1.02);
+  box-shadow: 0 4rpx 16rpx rgba(0,0,0,0.15);
+}
+
+.movable-item.moving .attraction-item {
+  background: #f0f7ff;
+  border: 2rpx solid #1890ff;
+}
+
+/* 预览位置指示器 */
+.drag-preview {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 4rpx;
+  background: #1890ff;
+  box-shadow: 0 0 8rpx rgba(24,144,255,0.5);
+}
+
+/* 拖动手柄样式 */
+.drag-handle {
+  position: absolute;
+  left: 20rpx;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40rpx;
+  height: 40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+}
+
+.handle-dots {
+  width: 24rpx;
+  height: 24rpx;
+  position: relative;
+}
+
+.handle-dots::before,
+.handle-dots::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 4rpx;
+  height: 24rpx;
+  background: #bbb;
+  border-radius: 2rpx;
+}
+
+.handle-dots::before {
+  left: 6rpx;
+}
+
+.handle-dots::after {
+  right: 6rpx;
+}
+
+/* 拖动时的动画效果 */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+.movable-item.moving .attraction-item {
+  animation: pulse 1s ease infinite;
+}
+
+/* 拖动时的景点样式 */
+.movable-item.moving .attraction-item {
+  background: #f0f7ff;
+  border: 2rpx solid #1890ff;
+  box-shadow: 0 4rpx 16rpx rgba(24,144,255,0.15);
+}
+
+/* 目标位置的指示线 */
+.movable-item.target:not(.source)::before {
+  content: '';
+  position: absolute;
+  left: 60rpx;
+  right: 60rpx;
+  height: 4rpx;
+  background: #1890ff;
+  top: -2rpx;
+  border-radius: 2rpx;
+  animation: glow 1s ease-in-out infinite;
+}
+
+@keyframes glow {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+/* 优化景点内容布局 */
+.attraction-content {
+  margin-left: 80rpx;
+  padding-right: 40rpx;
+}
+
+/* Vant 组件自定义样式 */
+.map-toggle {
+  --cell-background-color: #fff;
+}
+
+.day-plan {
+  margin: 20rpx;
+  overflow: hidden;
+}
+
+.day-header {
+  --cell-background-color: #f8f8f8;
+}
+
+.spot-count {
+  color: #1890ff !important;
+}
+
+.attraction-cell {
+  --cell-background-color: #fff;
+  padding: 20rpx !important;
+}
+
+.attraction-cell.moving {
+  --cell-background-color: #f0f7ff;
+}
+
+.days-tag {
+  margin-left: 16rpx;
+}
+
+.map-transition {
+  width: 100%;
+}
+
+/* 自定义按钮样式 */
+.share-btn {
+  --button-default-color: #666 !important;
+  --button-default-background-color: #fff !important;
+  --button-default-border-color: #ddd !important;
+}
+
+.save-btn {
+  --button-primary-background-color: #1890ff !important;
+  --button-primary-border-color: #1890ff !important;
+}
+
+/* 导航图标样式 */
+.nav-icon {
+  margin-left: 8rpx;
+  vertical-align: -2px;
+}
+
+/* 优化距离标签样式 */
+.van-tag {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.van-tag:active {
+  opacity: 0.8;
+  transform: scale(0.98);
+}
+
+/* 添加导航提示 */
+.van-tag::after {
+  content: '导航';
+  font-size: 20rpx;
+  margin-left: 4rpx;
+  opacity: 0.8;
+}

@@ -1,0 +1,306 @@
+.page-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #f5f5f5;
+  position: relative;
+}
+
+.fixed-header {
+  background: #fff;
+  z-index: 10;
+  padding-bottom: 10rpx;
+}
+
+.main-content {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.map-wrapper {
+  height: 0;
+  transition: height 0.3s ease;
+  position: relative;
+  z-index: 5;
+}
+
+.map-wrapper.show {
+  height: 500rpx;
+}
+
+.map {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.attractions-list {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.attractions-list.with-map {
+  height: calc(100% - 500rpx);
+}
+
+.fixed-footer {
+  padding: 20rpx;
+  background: #fff;
+  border-top: 1rpx solid #eee;
+  z-index: 10;
+  box-shadow: 0 -2rpx 10rpx rgba(0,0,0,0.05);
+}
+
+.date-section {
+  padding: 30rpx 20rpx;
+  background: #fff;
+  margin-bottom: 20rpx;
+}
+
+.date-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20rpx;
+}
+
+.date-item {
+  flex: 1;
+}
+
+.date-content {
+  padding: 16rpx 0;
+}
+
+.date-label {
+  font-size: 24rpx;
+  color: #999;
+  margin-bottom: 8rpx;
+}
+
+.date-value {
+  font-size: 32rpx;
+  color: #333;
+  font-weight: 500;
+}
+
+.date-separator {
+  width: 80rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.line {
+  height: 2rpx;
+  background: #e8e8e8;
+  flex: 1;
+}
+
+.dot {
+  width: 12rpx;
+  height: 12rpx;
+  background: #1890ff;
+  border-radius: 50%;
+  position: absolute;
+}
+
+.trip-info {
+  margin-top: 20rpx;
+  padding: 20rpx;
+  background: #f8f8f8;
+  border-radius: 8rpx;
+  display: flex;
+  justify-content: space-around;
+}
+
+.days-count, .spots-count {
+  font-size: 28rpx;
+  color: #666;
+  display: flex;
+  align-items: center;
+}
+
+.days-count::before, .spots-count::before {
+  content: '';
+  display: inline-block;
+  width: 8rpx;
+  height: 8rpx;
+  background: #1890ff;
+  border-radius: 50%;
+  margin-right: 10rpx;
+}
+
+.attractions-list {
+  padding: 20rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  margin-bottom: 20rpx;
+  color: #333;
+}
+
+.attraction-item {
+  background: #fff;
+  padding: 20rpx;
+  margin-bottom: 20rpx;
+  border-radius: 8rpx;
+  animation: fadeIn 0.3s ease;
+  position: relative;
+  padding-left: 60rpx;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* 添加点击效果 */
+.attraction-item:active {
+  background: #f5f5f5;
+}
+
+/* 添加提示图标 */
+.attraction-info {
+  flex: 1;
+  position: relative;
+}
+
+.attraction-info::after {
+  content: '👆';
+  position: absolute;
+  right: 20rpx;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 24rpx;
+  opacity: 0.5;
+}
+
+.attraction-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10rpx;
+}
+
+.attraction-name {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.attraction-rating {
+  margin-left: 20rpx;
+  color: #ff9500;
+  font-size: 26rpx;
+}
+
+.attraction-details {
+  font-size: 26rpx;
+  color: #666;
+}
+
+.attraction-address {
+  margin-bottom: 8rpx;
+}
+
+.attraction-type {
+  display: inline-block;
+  padding: 4rpx 12rpx;
+  background: #e6f7ff;
+  color: #1890ff;
+  border-radius: 4rpx;
+}
+
+.generate-btn {
+  width: 100%;
+}
+
+.generate-btn[disabled] {
+  background: #f5f5f5;
+  color: #999;
+  border: 1rpx solid #ddd;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+} 
+
+.map-toggle {
+  padding: 20rpx;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10rpx;
+  border-bottom: 1rpx solid #eee;
+  position: relative;
+  z-index: 102;
+}
+
+.toggle-text {
+  font-size: 28rpx;
+  color: #1890ff;
+}
+
+.toggle-icon {
+  font-size: 24rpx;
+  color: #1890ff;
+}
+
+.attraction-item {
+  position: relative;
+  padding-left: 60rpx;
+}
+
+.attraction-index {
+  position: absolute;
+  left: 20rpx;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32rpx;
+  height: 32rpx;
+  background: #1890ff;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24rpx;
+}
+
+/* 优化景点列表滚动 */
+.attractions-list {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 添加地图标记动画 */
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.map .marker {
+  animation: bounce 1s infinite;
+} 
+
+/* 添加路线动画 */
+@keyframes dash {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.map polyline {
+  stroke-dasharray: 8;
+  animation: dash 20s linear infinite;
+} 

@@ -1,0 +1,114 @@
+<view class="page-container">
+  <!-- 日期选择部分 -->
+  <view class="fixed-header">
+    <view class="date-section">
+      <view class="date-row">
+        <view class="date-item">
+          <picker 
+            mode="date" 
+            value="{{startDate}}" 
+            bindchange="handleStartDateChange"
+            start="{{today}}"
+          >
+            <view class="date-content">
+              <view class="date-label">出发日期</view>
+              <view class="date-value">{{startDate || '请选择'}}</view>
+            </view>
+          </picker>
+        </view>
+        <view class="date-separator">
+          <view class="line"></view>
+          <view class="dot"></view>
+        </view>
+        <view class="date-item">
+          <picker 
+            mode="date" 
+            value="{{endDate}}" 
+            bindchange="handleEndDateChange"
+            start="{{startDate || today}}"
+          >
+            <view class="date-content">
+              <view class="date-label">结束日期</view>
+              <view class="date-value">{{endDate || '请选择'}}</view>
+            </view>
+          </picker>
+        </view>
+      </view>
+      <view class="trip-info" wx:if="{{startDate && endDate}}">
+        <text class="days-count">共 {{days}} 天</text>
+        <text class="spots-count">{{attractions.length}} 个景点</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 主要内容区域 -->
+  <view class="main-content">
+    <!-- 地图切换按钮 -->
+    <view class="map-toggle" bindtap="toggleMap">
+      <text class="toggle-text">{{showMap ? '隐藏地图' : '查看地图'}}</text>
+      <text class="toggle-icon">{{showMap ? '↑' : '↓'}}</text>
+    </view>
+
+    <!-- 地图容器 -->
+    <view class="map-wrapper {{showMap ? 'show' : ''}}">
+      <map
+        id="map"
+        class="map"
+        longitude="{{center.longitude}}"
+        latitude="{{center.latitude}}"
+        markers="{{markers}}"
+        include-points="{{includePoints}}"
+        polyline="{{polyline}}"
+        show-location
+        scale="{{mapScale}}"
+        enable-zoom="{{true}}"
+        enable-scroll="{{true}}"
+        min-scale="3"
+        max-scale="20"
+      ></map>
+    </view>
+
+    <!-- 景点列表 -->
+    <scroll-view 
+      scroll-y 
+      class="attractions-list {{showMap ? 'with-map' : ''}}"
+      enhanced
+      show-scrollbar="{{false}}"
+      bounces="{{true}}"
+    >
+      <view class="section-title">行程安排</view>
+      <block wx:for="{{attractions}}" wx:key="id">
+        <view class="attraction-item" 
+          bindtap="locateAttraction" 
+          data-latitude="{{item.location.latitude}}"
+          data-longitude="{{item.location.longitude}}"
+          data-name="{{item.name}}"
+        >
+          <view class="attraction-index">{{index + 1}}</view>
+          <view class="attraction-info">
+            <view class="attraction-header">
+              <text class="attraction-name">{{item.name}}</text>
+              <text class="attraction-rating" wx:if="{{item.rating}}">{{item.rating}}分</text>
+            </view>
+            <view class="attraction-details">
+              <view class="attraction-address">{{item.address}}</view>
+              <view class="attraction-type" wx:if="{{item.type}}">{{item.type}}</view>
+            </view>
+          </view>
+        </view>
+      </block>
+    </scroll-view>
+  </view>
+
+  <!-- 底部按钮 -->
+  <view class="fixed-footer">
+    <button 
+      class="generate-btn" 
+      type="primary" 
+      bindtap="generatePlan"
+      disabled="{{!startDate || !endDate}}"
+    >
+      生成行程
+    </button>
+  </view>
+</view> 
