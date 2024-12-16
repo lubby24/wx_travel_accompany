@@ -192,9 +192,27 @@
 }
 
 .attraction-rating {
-  margin-left: 20rpx;
-  color: #ff9500;
-  font-size: 26rpx;
+  display: flex;
+  align-items: center;
+  margin-left: 16rpx;
+}
+
+/* 评分标签样式 */
+.van-tag {
+  font-weight: bold;
+}
+
+/* 高分景点特殊样式 */
+.van-cell__title {
+  position: relative;
+}
+
+.van-cell__title::after {
+  content: attr(data-rating);
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .attraction-details {

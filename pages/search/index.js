@@ -53,12 +53,13 @@ Page({
         console.log('搜索结果:', res.data);
         const data = res.data;
         if (data.status === 0 && data.results && data.results.length > 0) {
+          // 先处理数据
           const attractions = data.results.map(item => ({
             id: item.uid,
             name: item.name,
             address: item.address,
             type: item.detail_info ? item.detail_info.tag : '景点',
-            rating: item.detail_info ? item.detail_info.overall_rating || 0 : 0,
+            rating: item.detail_info ? parseFloat(item.detail_info.overall_rating) || 0 : 0,
             location: {
               latitude: item.location.lat,
               longitude: item.location.lng
@@ -68,6 +69,14 @@ Page({
             openingHours: item.detail_info && item.detail_info.open_time ? [item.detail_info.open_time] : [],
             isSelected: false
           }));
+
+          // 按评分排序
+          attractions.sort((a, b) => {
+            if (b.rating === a.rating) {
+              return a.name.localeCompare(b.name);
+            }
+            return b.rating - a.rating;
+          });
 
           this.setData({
             selectedLocation: {
@@ -161,6 +170,71 @@ Page({
         res.eventChannel.emit('acceptDataFromOpenerPage', {
           attractions: this.data.selectedAttractions
         });
+      }
+    });
+  },
+
+  // 处理搜索结果
+  handleSearchResult(data) {
+    // 确保每个景点都有评分，如果没有则默认为0
+    const attractions = data.map(item => ({
+      ...item,
+      rating: parseFloat(item.rating) || 0  // 确保评分是数字
+    }));
+
+    // 按评分从高到低排序
+    attractions.sort((a, b) => {
+      // 如果评分相同，可以再按照名称排序
+      if (b.rating === a.rating) {
+        return a.name.localeCompare(b.name);
+      }
+      return b.rating - a.rating;
+    });
+
+    this.setData({
+      searchResults: attractions,
+      searching: false
+    });
+  },
+
+  // 搜索景点
+  searchAttractions() {
+    if (!this.data.keyword.trim()) {
+      wx.showToast({
+        title: '请输入搜索关键词',
+        icon: 'none'
+      });
+      return;
+    }
+
+    this.setData({ searching: true });
+
+    // 调用搜索API
+    wx.request({
+      url: 'YOUR_API_URL',
+      data: {
+        keyword: this.data.keyword
+      },
+      success: (res) => {
+        this.handleSearchResult(res.data);
+      },
+      fail: () => {
+        // 模拟数据用于测试
+        const mockData = [
+          {
+            id: '1',
+            name: '故宫博物院',
+            address: '北京市东城区景山前街4号',
+            rating: 4.8,
+            type: '博物馆',
+            location: {
+              latitude: 39.916345,
+              longitude: 116.397155
+            }
+          },
+          // ... 其他测试数据
+        ];
+        this.handleSearchResult(mockData);
       }
     });
   }

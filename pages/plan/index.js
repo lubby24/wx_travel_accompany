@@ -22,10 +22,11 @@ Page({
 
     const eventChannel = this.getOpenerEventChannel();
     eventChannel.on('acceptDataFromOpenerPage', (data) => {
-      const attractions = data.attractions;
+      // 使用 handleSearchResult 处理并排序景点数据
+      this.handleSearchResult(data.attractions);
       
       // 处理地图标记
-      const markers = attractions.map((item, index) => ({
+      const markers = this.data.attractions.map((item, index) => ({
         id: index + 1,
         latitude: item.location.latitude,
         longitude: item.location.longitude,
@@ -45,14 +46,13 @@ Page({
         }
       }));
 
-      const center = this.calculateCenter(attractions);
-      const includePoints = attractions.map(item => ({
+      const center = this.calculateCenter(this.data.attractions);
+      const includePoints = this.data.attractions.map(item => ({
         latitude: item.location.latitude,
         longitude: item.location.longitude
       }));
 
       this.setData({
-        attractions,
         markers,
         center,
         includePoints,
@@ -238,5 +238,25 @@ Page({
       }],
       padding: [100, 100, 100, 100]
     });
-  }
+  },
+
+  // 处理搜索结果的方法
+  handleSearchResult(data) {
+    // 确保每个景点都有评分，如果没有则默认为0
+    const attractions = data.map(item => ({
+      ...item,
+      rating: parseFloat(item.rating) || 0  // 确保评分是数字
+    }));
+
+    // 按评分从高到低排序
+    attractions.sort((a, b) => {
+      // 如果评分相同，可以再按照名称排序
+      if (b.rating === a.rating) {
+        return a.name.localeCompare(b.name);
+      }
+      return b.rating - a.rating;
+    });
+
+    this.setData({ attractions });
+  },
 }); 

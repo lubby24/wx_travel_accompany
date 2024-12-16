@@ -77,26 +77,24 @@
       bounces="{{true}}"
     >
       <view class="section-title">行程安排</view>
-      <block wx:for="{{attractions}}" wx:key="id">
-        <view class="attraction-item" 
-          bindtap="locateAttraction" 
-          data-latitude="{{item.location.latitude}}"
-          data-longitude="{{item.location.longitude}}"
-          data-name="{{item.name}}"
-        >
-          <view class="attraction-index">{{index + 1}}</view>
-          <view class="attraction-info">
-            <view class="attraction-header">
-              <text class="attraction-name">{{item.name}}</text>
-              <text class="attraction-rating" wx:if="{{item.rating}}">{{item.rating}}分</text>
-            </view>
-            <view class="attraction-details">
-              <view class="attraction-address">{{item.address}}</view>
-              <view class="attraction-type" wx:if="{{item.type}}">{{item.type}}</view>
-            </view>
-          </view>
+      <van-cell 
+        wx:for="{{attractions}}" 
+        wx:key="id"
+        title="{{item.name}}"
+        label="{{item.address}}"
+        clickable
+        bind:click="selectAttraction"
+        data-attraction="{{item}}"
+      >
+        <view slot="right-icon" class="attraction-rating">
+          <van-tag 
+            type="{{item.rating >= 4.5 ? 'danger' : item.rating >= 4 ? 'warning' : 'primary'}}" 
+            size="medium"
+          >
+            {{item.rating || '-'}}分
+          </van-tag>
         </view>
-      </block>
+      </van-cell>
     </scroll-view>
   </view>
 
